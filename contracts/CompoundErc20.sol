@@ -16,7 +16,6 @@ contract CompoundErc20 {
     function supply(uint _amount) external {
         token.transferFrom(msg.sender, address(this), _amount);
         token.approve(address(cToken), _amount);
-        cToken.mint(_amount);
         require(cToken.mint(_amount) == 0, "mint failed");
     }
 
