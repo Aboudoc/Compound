@@ -48,9 +48,16 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#Simple-Arbitrage-Contract">Simple Arbitrage Contract</a></li>
-    <li><a href="#Arbitrage-Profit-For-CPAMM">Arbitrage Profit For CPAMM</a></li>
-    <li><a href="#Test-Arbitrage-(soon...)">Test Arbitrage (soon...)</a></li>
+    <li><a href="#CompoundErc20-Contract">CompoundErc20 Contract</a></li>
+    <li><a href="#State-Variables">State Variables</a></li>
+    <li><a href="#Constructor">Constructor</a></li>
+    <li><a href="Function-upply">Function supply</a></li>
+    <li><a href="Function-getCTokenBalance">Function getCTokenBalance</a></li>
+    <li><a href="Function-getInfo">Function getInfo</a></li>
+    <li><a href="Function-estimateBalanceOfUnderlying">Function estimateBalanceOfUnderlying</a></li>
+    <li><a href="Function-balanceOfUnderlying">Function balanceOfUnderlying</a></li>
+    <li><a href="Function-redeem">Function redeem</a></li>
+    <li><a href="Test-supply/redeem">Test supply/redeem</a></li>
     <li><a href="#Forking-mainnet">Forking mainnet</a></li>
     <li><a href="#Note">Note</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -153,21 +160,21 @@ There are `4 operations` related to lending and borrowing on Compound:
 - Repay
 - Redeem
 
-First let's see how to lend a token to Compound and ear interests
+First let's see how to `lend` a token to Compound and earn interests
 
 We will start with `Supply` and `Redeem`
 
 Let's see how to supply our token to earn interests. Once we'll want to withdraw our token, then we'll be calling redeem.
 
-### State Variables
+## State Variables
 
 Declare the two token interfaces
 
-### Constructor
+## Constructor
 
 Set the contract interfaces
 
-### Function supply
+## Function supply
 
 When we call this function, it will lend our token to the compound protocol
 
@@ -178,11 +185,11 @@ When we call this function, it will lend our token to the compound protocol
 
 The question is: How much cToken do we have?
 
-### Function getCTokenBalance
+## Function getCTokenBalance
 
 Call `balanceOf` on `cToken`
 
-### Function getInfo
+## Function getInfo
 
 1. if you want to know the **exchange rate** from cToken to the token that we supply, then we can call the function `exchangeRate()`on `cToken`
 2. if you want to know the **interest rate** on supplying the token, then you can get it by calling `supplyRatePerBllock()` on `cToken`
@@ -191,21 +198,21 @@ Call `balanceOf` on `cToken`
 
 Now we can estimate the balance of the token that we supply
 
-### Function
+## Function estimateBalanceOfUnderlying
 
 1. Return balance of underlying token using balance of `cToken` and `exchangeRate`
 
 You must take into consideration decimals (wbtc = 8 decimals)
 
-We actually don't have to write this function because compound provides the same function called `balanceOfUnderlying`
+**We actually don't have to write this function because compound provides the same function called `balanceOfUnderlying`**
 
-### Function balanceOfUnderlying
+## Function balanceOfUnderlying
 
 Calculates and returns the amount of token that we supplied into compound.
 
 We'll see that these two function returns numbers really close to each other
 
-### Function redeem
+## Function redeem
 
 To claim the token and the interest
 
