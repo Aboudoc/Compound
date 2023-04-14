@@ -45,4 +45,36 @@ contract CompoundErc20 {
     function redeem(uint _cTokenAmount) external {
         require(cToken.redeem(_cTokenAmount) == 0, "redeem failed");
     }
+
+    ////////// borrow and repay //////////
+    Comptroller public comptroller =
+        Comptroller(0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B);
+
+    PriceFeed public priceFeed =
+        PriceFeed(0x922018674c12a7F0D394ebEEf9B58F186CdE13c1);
+
+    function getCollateralFactor() external view returns (uint) {
+        (bool isListed, uint colFactor, bool isComped) = comptroller.markets(
+            address(cToken)
+        );
+
+        return colFactor;
+    }
+
+    function getAccountLiquidity()
+        external
+        view
+        returns (uint liquidity, uint shortfall)
+    {
+        (uint error, uint _liquidity, uint _shortfall) = comptroller
+            .getAccountLiquidity(address(this));
+
+        require(error == 0, "error");
+
+        return (_liquidity, _shortfall);
+    }
+
+    function getPriceFeed(address _cToken) external view returns (uint) {
+        return priceFeed.getUnderlyingPrice(_cToken);
+    }
 }

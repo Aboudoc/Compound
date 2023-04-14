@@ -42,10 +42,10 @@ describe("Compound", function () {
 
       console.log(`------  balances before...  ------`);
 
-      console.log("WBTC balance for contract", wbtcBalance);
+      console.log("WBTC balance for contract", wbtcBalance.toNumber());
       console.log(
         "WBTC balance for msg.sender",
-        await token.balanceOf(accounts[1].address)
+        (await token.balanceOf(accounts[1].address)).toNumber()
       );
 
       snapShot = async (testCompound, token, cToken) => {
@@ -83,7 +83,7 @@ describe("Compound", function () {
       console.log(`token balance ${after.token}`);
       console.log(`c token balance ${after.cToken}`);
 
-      for (let i = 0; i < 400; i++) {
+      for (let i = 0; i < 365; i++) {
         await ethers.provider.send("evm_increaseTime", [86400]); // 1 day in seconds
         await ethers.provider.send("evm_mine", []);
       }

@@ -48,7 +48,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#CompoundErc20-Contract">CompoundErc20 Contract</a></li>
+    <li><a href="#Supply-and-Redeem">Supply and Redeem</a></li>
     <li><a href="#State-Variables">State Variables</a></li>
     <li><a href="#Constructor">Constructor</a></li>
     <li><a href="Function-upply">Function supply</a></li>
@@ -58,6 +58,7 @@
     <li><a href="Function-balanceOfUnderlying">Function balanceOfUnderlying</a></li>
     <li><a href="Function-redeem">Function redeem</a></li>
     <li><a href="Test-supply/redeem">Test supply/redeem</a></li>
+    <li><a href="#Borrow-and-Repay">Borrow and Repay</a></li>
     <li><a href="#Forking-mainnet">Forking mainnet</a></li>
     <li><a href="#Note">Note</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -151,7 +152,7 @@ You can learn more about `CPAMM` in [this repo](https://github.com/Aboudoc/Const
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## CompoundErc20 Contract
+## Supply and Redeem
 
 There are `4 operations` related to lending and borrowing on Compound:
 
@@ -218,7 +219,103 @@ To claim the token and the interest
 
 1. Check that the function call was successfull by calling `redeem()` on `cToken` (!0 = there is an error)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Test supply/redeem
+
+<div>
+<img src="images/test1.png" alt="Test">
+</div>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Borrow and Repay
+
+Topics related to this part of the contract:
+
+- collateral
+- account liquidity - calculate how much can I borrow?
+- open price feed - USD price of token to borrow
+- enter market and borrow
+- borrowed balance (includes interest)
+- borrow rate
+- repay borrow
+
+Start by initializing 2 compound contracts: `comptroller` and `priceFeed`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Collateral
+
+After you supply a token to compound, you are able to borrow a percentage of what you supply: collateral factor (for exemple 65%)
+
+### Function getCollateralFactor
+
+To get the collateral factor, we need to call `markets()` on the comptroller passing in the address of the cToken that we supply.
+
+It will return 3 outputs: `isListed`, `colFactor` and `isComped`
+
+**Note that the `colFactor` is scaled to 10\*\*18 => divide by 1e18 to get in %**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Account liquidity
+
+How much can I borrow?
+
+### Function getAccountLiquidity
+
+To get the account liquidity, we need to call `getAccountLiquidity()` on the comptroller passing in the address of this contract
+
+It will return 3 outputs: `error`, `_liquidity` and `_shortfall`
+
+**Note that `_liquiditt` is scaled to 10\*\*18**
+
+**If `_shortfall` > 0 => subject to liquidation**
+
+In Summary:
+
+- Normal circumstance - liquidity > 0 and shortfall == 0
+- liquidity > 0 means account can borrow up to `liquidity`
+- shortfall > 0 is subject to liquidation, you borrowed over the limit
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Open price feed
+
+Why might we need the price in terms of USD? => because liquidity is in terms of USD, by dividing it by the price of token that we want to borrow, we get the amount of tokens that we can borrow.
+
+### Function getPriceFeed
+
+We can get the price of the token that we borrow in terms of USD by calling `getunderlyingPrice` on the contract `priceFeed`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Enter market and borrow
+
+What to do to borrow the token:
+
+1. Enter market
+2. Checheck liquidity
+3. Calculate max borrow
+4. Borrow 50% of max borrow
+
+### Function borrow
+
+1. Call `enterMarkets` on `comptroller` passing in the tokens that we **_supply_**. One cToken here, so we initialize an array with 1 element.
+
+- Check on `error[0]`
+
+2. Call `getAccountLiquidity` on `comptroller` passing in the tokens that we supply. 1 cToken, we initialize an array with 1 element.
+
+- Check `error`, `shortfall` and `liquidity`
+
+3. Get the price by calling `getUnderlyingPrice()` on `priceFeed` passing in the tokens that we **_borrow_**
+
+- Calculate au max borrow by divind the liquidity by the price. Scale up liquidity by `_decimals` and
+- Check maxBorrow > 0
+- Define `amount` as 50% of `maxBorrow`
+- Finally call `borrow` on the `CErc20` for the `cTokenBorrow`, and check by calling the function (0 <=> no error)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
