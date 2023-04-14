@@ -80,13 +80,16 @@ describe("Compound", function () {
       console.log(`balance of underlying ${after.balanceOfUnderlying}`);
       console.log(`token balance ${after.token}`);
       console.log(`c token balance ${after.cToken}`);
-      const exchangeRate1 = await cToken.exchangeRateCurrent();
-      console.log(`exchange rate: ${exchangeRate1}`);
 
-      // for (let i = 0; i < 100; i++) {
-      //   await ethers.provider.send("evm_increaseTime", [86400]); // 1 day in seconds
-      //   await ethers.provider.send("evm_mine", []);
-      // }
+      for (let i = 0; i < 100; i++) {
+        await ethers.provider.send("evm_increaseTime", [86400]); // 1 day in seconds
+        await ethers.provider.send("evm_mine", []);
+      }
+
+      after = await snapShot(testCompound, token, cToken);
+
+      console.log(`--- after some blocks... ---`);
+      console.log(`balance of underlying ${after.balanceOfUnderlying}`);
     });
   });
 });
