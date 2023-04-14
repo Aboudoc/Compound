@@ -77,4 +77,6 @@ contract CompoundErc20 {
     function getPriceFeed(address _cToken) external view returns (uint) {
         return priceFeed.getUnderlyingPrice(_cToken);
     }
+
+    function borrow(address _cTokenToBoorrow, uint _decimals) external {}
 }

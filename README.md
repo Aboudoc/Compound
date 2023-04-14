@@ -255,7 +255,7 @@ To get the collateral factor, we need to call `markets()` on the comptroller pas
 
 It will return 3 outputs: `isListed`, `colFactor` and `isComped`
 
-**Note that the `colFactor` is scaled to 10\*\*18 => divide by 1e18 to get in %**
+**Note that the `colFactor` is scaled to 10\*\*18 => divide it by 1e18 to get in %**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -269,7 +269,7 @@ To get the account liquidity, we need to call `getAccountLiquidity()` on the com
 
 It will return 3 outputs: `error`, `_liquidity` and `_shortfall`
 
-**Note that `_liquiditt` is scaled to 10\*\*18**
+**Note that `_liquidity` is scaled to 10\*\*18**
 
 **If `_shortfall` > 0 => subject to liquidation**
 
@@ -296,28 +296,28 @@ We can get the price of the token that we borrow in terms of USD by calling `get
 What to do to borrow the token:
 
 1. Enter market
-2. Checheck liquidity
+2. Check liquidity
 3. Calculate max borrow
 4. Borrow 50% of max borrow
 
 ### Function borrow
 
-1. Call `enterMarkets` on `comptroller` passing in the tokens that we **_supply_**. One cToken here, so we initialize an array with 1 element.
+1. Call `enterMarkets()` on `comptroller` passing in the tokens that we **_supply_**. One cToken here, so we initialize an array with 1 element.
 
 - Check on `error[0]`
 
-2. Call `getAccountLiquidity` on `comptroller` passing in the tokens that we supply. 1 cToken, we initialize an array with 1 element.
+2. Call `getAccountLiquidity()` on `comptroller` passing in **_this address_**. 1 cToken, we initialize an array with 1 element.
 
 - Check `error`, `shortfall` and `liquidity`
 
 3. Get the price by calling `getUnderlyingPrice()` on `priceFeed` passing in the tokens that we **_borrow_**
 
 - Calculate au max borrow by divind the liquidity by the price. Scale up liquidity by `_decimals` and
-- Check maxBorrow > 0
+- Check `maxBorrow` > 0
 
 4. Define `amount` as 50% of `maxBorrow`
 
-=> Finally call `borrow` on the `CErc20` for the `cTokenBorrow`, and check by calling the function (0 <=> no error)
+=> Finally call `borrow()` on the `CErc20` for the `cTokenBorrow`, and check while calling the function (0 <=> no error)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
