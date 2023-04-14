@@ -314,8 +314,10 @@ What to do to borrow the token:
 
 - Calculate au max borrow by divind the liquidity by the price. Scale up liquidity by `_decimals` and
 - Check maxBorrow > 0
-- Define `amount` as 50% of `maxBorrow`
-- Finally call `borrow` on the `CErc20` for the `cTokenBorrow`, and check by calling the function (0 <=> no error)
+
+4. Define `amount` as 50% of `maxBorrow`
+
+=> Finally call `borrow` on the `CErc20` for the `cTokenBorrow`, and check by calling the function (0 <=> no error)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
