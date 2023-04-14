@@ -40,6 +40,8 @@ describe("Compound", function () {
 
       wbtcBalance = await token.balanceOf(testCompound.address);
 
+      console.log(`------  balances before...  ------`);
+
       console.log("WBTC balance for contract", wbtcBalance);
       console.log(
         "WBTC balance for msg.sender",
@@ -72,7 +74,7 @@ describe("Compound", function () {
 
       let after = await snapShot(testCompound, token, cToken);
 
-      console.log("--- supply ---");
+      console.log("---------     supply     ---------");
 
       console.log(`exchange rate ${after.exchangeRate}`);
       console.log(`supply rate ${after.supplyRate}`);
@@ -81,15 +83,26 @@ describe("Compound", function () {
       console.log(`token balance ${after.token}`);
       console.log(`c token balance ${after.cToken}`);
 
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 400; i++) {
         await ethers.provider.send("evm_increaseTime", [86400]); // 1 day in seconds
         await ethers.provider.send("evm_mine", []);
       }
 
       after = await snapShot(testCompound, token, cToken);
 
-      console.log(`--- after some blocks... ---`);
+      console.log(`------ after some blocks... ------`);
       console.log(`balance of underlying ${after.balanceOfUnderlying}`);
+
+      cTokenAmount = await cToken.balanceOf(testCompound.address);
+
+      await testCompound.connect(accounts[1]).redeem(cTokenAmount);
+
+      after = await snapShot(testCompound, token, cToken);
+
+      console.log(`----------    redeem    ----------`);
+      console.log(`balance of underlying ${after.balanceOfUnderlying}`);
+      console.log(`token balance ${after.token}`);
+      console.log(`c token balance ${after.cToken}`);
     });
   });
 });
