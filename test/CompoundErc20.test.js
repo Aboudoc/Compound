@@ -4,9 +4,10 @@ require("dotenv").config();
 
 const WBTC = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599";
 const CWBTC = "0xccF4429DB6322D5C611ee964527D42E5d685DD6a";
+const DAI = "";
 
-describe("Compound", function () {
-  describe("Compound finance", function () {
+describe("Compound finance", function () {
+  describe("supply and redeem", function () {
     let accounts,
       token,
       cToken,

@@ -399,7 +399,7 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 Note: Replace the `${}` component of the URL with your personal [Alchemy](https://www.alchemy.com/) API key.
 
 ```sh
-npx hardhat test test/CompoundErc20.test.js
+npx hardhat test test/compoundErc20.test.js
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
