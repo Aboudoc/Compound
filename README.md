@@ -59,6 +59,14 @@
     <li><a href="Function-redeem">Function redeem</a></li>
     <li><a href="Test-supply/redeem">Test supply/redeem</a></li>
     <li><a href="#Borrow-and-Repay">Borrow and Repay</a></li>
+    <li><a href="Collateral">Collateral</a></li>
+    <li><a href="Account-liquidity">Account liquidity</a></li>
+    <li><a href="Open-price-feed">Open price feed</a></li>
+    <li><a href="Enter-market-and-borrow">Enter market and borrow</a></li>
+    <li><a href="Borrowed-balance-(includes-interest)">Borrowed balance (includes interest)</a></li>
+    <li><a href="Borrow-rate">Borrow rate</a></li>
+    <li><a href="Repay-borrow">Repay borrow</a></li>
+    <li><a href="Test-borrow/repay">Test borrow/repay</a></li>
     <li><a href="#Forking-mainnet">Forking mainnet</a></li>
     <li><a href="#Note">Note</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -329,7 +337,7 @@ Once we borrow we can get the balance of the borrowed token including the intere
 
 - Call `borrowBalanceCurrent()` on the cToken that we borrowed, passing in this address
 
-**Note that this function is not a view function **
+**Note that this function is not a view function**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
