@@ -51,7 +51,7 @@
     <li><a href="#Supply-and-Redeem">Supply and Redeem</a></li>
     <li><a href="#State-Variables">State Variables</a></li>
     <li><a href="#Constructor">Constructor</a></li>
-    <li><a href="Function-upply">Function supply</a></li>
+    <li><a href="Function-supply">Function supply</a></li>
     <li><a href="Function-getCTokenBalance">Function getCTokenBalance</a></li>
     <li><a href="Function-getInfo">Function getInfo</a></li>
     <li><a href="Function-estimateBalanceOfUnderlying">Function estimateBalanceOfUnderlying</a></li>
