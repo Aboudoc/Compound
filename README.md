@@ -175,13 +175,19 @@ We will start with `Supply` and `Redeem`
 
 Let's see how to supply our token to earn interests. Once we'll want to withdraw our token, then we'll be calling redeem.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## State Variables
 
 Declare the two token interfaces
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Constructor
 
 Set the contract interfaces
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Function supply
 
@@ -194,9 +200,13 @@ When we call this function, it will lend our token to the compound protocol
 
 The question is: How much cToken do we have?
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Function getCTokenBalance
 
 Call `balanceOf` on `cToken`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Function getInfo
 
@@ -207,6 +217,8 @@ Call `balanceOf` on `cToken`
 
 Now we can estimate the balance of the token that we supply
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Function estimateBalanceOfUnderlying
 
 1. Return balance of underlying token using balance of `cToken` and `exchangeRate`
@@ -215,11 +227,15 @@ You must take into consideration decimals (wbtc = 8 decimals)
 
 **We actually don't have to write this function because compound provides the same function called `balanceOfUnderlying`**
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Function balanceOfUnderlying
 
 Calculates and returns the amount of token that we supplied into compound.
 
 We'll see that these two function returns numbers really close to each other
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Function redeem
 
