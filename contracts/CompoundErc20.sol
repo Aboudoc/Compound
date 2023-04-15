@@ -13,6 +13,8 @@ contract CompoundErc20 {
         cToken = CErc20(_cToken);
     }
 
+    ////////// supply and redeem //////////
+
     function supply(uint _amount) external {
         token.transferFrom(msg.sender, address(this), _amount);
         token.approve(address(cToken), _amount);
@@ -47,6 +49,7 @@ contract CompoundErc20 {
     }
 
     ////////// borrow and repay //////////
+
     Comptroller public comptroller =
         Comptroller(0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B);
 
@@ -78,5 +81,51 @@ contract CompoundErc20 {
         return priceFeed.getUnderlyingPrice(_cToken);
     }
 
-    function borrow(address _cTokenToBoorrow, uint _decimals) external {}
+    function borrow(address _cTokenToBorrow, uint _decimals) external {
+        address[] memory cTokens = new address[](1);
+
+        cTokens[0] = address(cToken);
+
+        uint[] memory errors = comptroller.enterMarkets(cTokens);
+        require(errors[0] == 0, "error");
+
+        (uint error, uint shortfall, uint liquidity) = comptroller
+            .getAccountLiquidity(address(this));
+        require(error == 0, "error");
+        require(shortfall == 0, "shortfall > 0");
+        require(liquidity > 0, "liquidity = 0");
+
+        uint price = priceFeed.getUnderlyingPrice(_cTokenToBorrow);
+
+        uint maxBorrow = (liquidity * (10**_decimals)) / price;
+        require(maxBorrow > 0, "max borrow = 0");
+
+        uint amount = (maxBorrow * 50) / 100;
+
+        require(CErc20(_cTokenToBorrow).borrow(amount) == 0, "borrow failed");
+    }
+
+    function getBorrowedBalance(address _cTokenBorrowed) public returns (uint) {
+        return CErc20(_cTokenBorrowed).borrowBalanceCurrent(address(this));
+    }
+
+    function getBorrowRatePerBlock(address _cTokenBorrowed)
+        external
+        view
+        returns (uint)
+    {
+        return CErc20(_cTokenBorrowed).borrowRatePerBlock();
+    }
+
+    function repay(
+        address _tokenBorrorowed,
+        address _cTokenBorrowed,
+        uint _amount
+    ) external {
+        IERC20(_tokenBorrorowed).approve(_cTokenBorrowed, _amount);
+        require(
+            CErc20(_cTokenBorrowed).repayBorrow(_amount) == 0,
+            "repay failed"
+        );
+    }
 }

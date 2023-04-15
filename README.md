@@ -269,7 +269,7 @@ To get the account liquidity, we need to call `getAccountLiquidity()` on the com
 
 It will return 3 outputs: `error`, `_liquidity` and `_shortfall`
 
-**Note that `_liquidity` is scaled to 10\*\*18**
+**Note that `_liquidity` is scaled up by 10\*\*18**
 
 **If `_shortfall` > 0 => subject to liquidation**
 
@@ -306,18 +306,55 @@ What to do to borrow the token:
 
 - Check on `error[0]`
 
-2. Call `getAccountLiquidity()` on `comptroller` passing in **_this address_**. 1 cToken, we initialize an array with 1 element.
+2. Call `getAccountLiquidity()` on `comptroller` passing in **_this address_**.
 
 - Check `error`, `shortfall` and `liquidity`
 
 3. Get the price by calling `getUnderlyingPrice()` on `priceFeed` passing in the tokens that we **_borrow_**
 
-- Calculate au max borrow by divind the liquidity by the price. Scale up liquidity by `_decimals` and
+- Calculate `maxBorrow` by divinding the liquidity by the price. Scale up liquidity by `_decimals`
 - Check `maxBorrow` > 0
 
 4. Define `amount` as 50% of `maxBorrow`
 
-=> Finally call `borrow()` on the `CErc20` for the `cTokenBorrow`, and check while calling the function (0 <=> no error)
+=> Finally call `borrow()` on the `CErc20` for the `_cTokenBorrow`, and check while calling the function (0 <=> no error)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Borrowed balance (includes interest)
+
+Once we borrow we can get the balance of the borrowed token including the interest
+
+### Function getBorrowedBalance
+
+- Call `borrowBalanceCurrent()` on the cToken that we borrowed, passing in this address
+
+**Note that this function is not a view function **
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Borrow rate
+
+Can be interesting to get the borrow rate per block
+
+### Function getBorrowRatePerBlock
+
+- Call `borrowRatePerBlock()` on the `CErc20` for the cToken that we borrowed
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Repay borrow
+
+Once we are ready to repay what we've borrowed, we will call the function `repay()`
+
+### Function repay
+
+- Approve the cToken that we borrowed to be able to spend the token that we borrowed for the `_amount`
+- Call `repayBorrow` on CErc20 token at the address of `_ctTokenBorrowed` passing in the `_amount` we wish to repay
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Test borrow/repay
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -338,7 +375,7 @@ What to do to borrow the token:
 Note: Replace the `${}` component of the URL with your personal [Alchemy](https://www.alchemy.com/) API key.
 
 ```sh
-npx hardhat test test/swapV3.test.js
+npx hardhat test test/CompoundErc20.test.js
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -369,6 +406,7 @@ You can find official Compound documentation below:
 
 ## Roadmap
 
+- [ ] Main functionalities of the protocol
 - [ ] Test on mainnet fork
 - [ ] Deploy on mainnet?
 - [ ] Further reading
