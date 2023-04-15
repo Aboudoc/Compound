@@ -89,10 +89,10 @@ contract CompoundErc20 {
         uint[] memory errors = comptroller.enterMarkets(cTokens);
         require(errors[0] == 0, "error");
 
-        (uint error, uint shortfall, uint liquidity) = comptroller
+        (uint error, uint liquidity, uint shortfall) = comptroller
             .getAccountLiquidity(address(this));
         require(error == 0, "error");
-        require(shortfall == 0, "shortfall > 0");
+        require(shortfall == 0, "account underwater");
         require(liquidity > 0, "liquidity = 0");
 
         uint price = priceFeed.getUnderlyingPrice(_cTokenToBorrow);

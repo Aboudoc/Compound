@@ -15,8 +15,8 @@ describe("Compound finance", function () {
     const C_TOKEN = CWBTC;
     const TOKEN_TO_BORROW = DAI;
     const C_TOKEN_TO_BORROW = CDAI;
-    const SUPPLY_AMOUNT = 1n * 10n ** 8n;
-    const FUND_AMOUNT = 1n * 10n ** 8n;
+    const SUPPLY_AMOUNT = 2n * 10n ** 8n;
+    const FUND_AMOUNT = 2n * 10n ** 8n;
 
     let accounts,
       token,
@@ -48,6 +48,9 @@ describe("Compound finance", function () {
       wbtcWhale = await ethers.getSigner(process.env.WBTC_WHALE0);
 
       await token.connect(wbtcWhale).transfer(accounts[1].address, FUND_AMOUNT);
+      await token
+        .connect(wbtcWhale)
+        .transfer(testCompound.address, FUND_AMOUNT);
 
       wbtcBalance = await token.balanceOf(testCompound.address);
 
@@ -64,7 +67,7 @@ describe("Compound finance", function () {
         const colFactor = await testCompound.getCollateralFactor();
         const supplied = await testCompound.callStatic.balanceOfUnderlying();
         const price = await testCompound.getPriceFeed(C_TOKEN_TO_BORROW);
-        const maxBorrow = (liquidity * 10 ** BORROW_DECIMALS) / price;
+        const maxBorrow = liquidity / price;
         const borrowedBalance =
           await testCompound.callStatic.getBorrowedBalance(C_TOKEN_TO_BORROW);
         const tokenToBorrowBal = await tokenToBorrow.balanceOf(
@@ -89,6 +92,8 @@ describe("Compound finance", function () {
     });
 
     it("should supply, borrow and repay", async function () {
+      let after;
+
       // supply
       await token
         .connect(accounts[1])
@@ -96,7 +101,7 @@ describe("Compound finance", function () {
 
       await testCompound.connect(accounts[1]).supply(SUPPLY_AMOUNT);
 
-      let after = await snapshot(testCompound, tokenToBorrow);
+      after = await snapshot(testCompound, tokenToBorrow);
       console.log(`--- borrow (before) ---`);
       console.log(`col factor: ${after.colFactor} %`);
       console.log(`supplied: ${after.supplied}`);
@@ -108,6 +113,17 @@ describe("Compound finance", function () {
       console.log(`borrow rate: ${after.borrowRate}`);
 
       // borrow
+      await testCompound
+        .connect(accounts[1])
+        .borrow(C_TOKEN_TO_BORROW, BORROW_DECIMALS);
+
+      after = await snapshot(testCompound, tokenToBorrow);
+      console.log(`--- borrow (after) ---`);
+      console.log(`liquidity: $ ${after.liquidity}`);
+      console.log(`max borrow: ${after.maxBorrow}`);
+      console.log(`borrowed balance (compound): ${after.borrowedBalance}`);
+      console.log(`borrowed balance (erc20): ${after.tokenToBorrowBal}`);
+
       // accrue interest on borrow
       // repay
     });
