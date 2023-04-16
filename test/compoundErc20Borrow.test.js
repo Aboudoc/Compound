@@ -125,6 +125,18 @@ describe("Compound finance", function () {
       console.log(`borrowed balance (erc20): ${after.tokenToBorrowBal}`);
 
       // accrue interest on borrow
+      for (let i = 0; i < 365; i++) {
+        await ethers.provider.send("evm_increaseTime", [86400]); // 1 day in seconds
+        await ethers.provider.send("evm_mine", []);
+      }
+
+      after = await snapshot(testCompound, tokenToBorrow);
+      console.log(`--- after some blocks... ---`);
+      console.log(`liquidity: $ ${after.liquidity}`);
+      console.log(`max borrow: ${after.maxBorrow}`);
+      console.log(`borrowed balance (compound): ${after.borrowedBalance}`);
+      console.log(`borrowed balance (erc20): ${after.tokenToBorrowBal}`);
+
       // repay
     });
   });
