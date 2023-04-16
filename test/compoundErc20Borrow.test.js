@@ -150,6 +150,7 @@ describe("Compound finance", function () {
         .connect(repayWhale)
         .transfer(testCompound.address, BORROW_INTEREST);
 
+      // _amount = 2 ** 256 - 1 means repay all
       const MAX_UINT = 2n ** 256n - 1n;
 
       await testCompound

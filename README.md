@@ -380,6 +380,11 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 
 ## Test borrow/repay
 
+<div>
+<img src="images/test2.png" alt="Test">
+</div>
+
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Forking mainnet
