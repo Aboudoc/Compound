@@ -400,7 +400,6 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 - `borrowed balalance (erc20)`: after we borrow, the borrowed balance is 10608.03
 - `max borrow`: we can further borrow 10618 DAI
 - `liquidity`: a this moment the liquidity in terms of USD is 10626
-- ``
 
 ### after some blocks
 
