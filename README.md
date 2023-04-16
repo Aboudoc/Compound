@@ -67,6 +67,7 @@
     <li><a href="#Borrow-rate">Borrow rate</a></li>
     <li><a href="#Repay-borrow">Repay borrow</a></li>
     <li><a href="#Test-borrow/repay">Test borrow/repay</a></li>
+    <li><a href="#Liquidate">Liquidate</a></li>
     <li><a href="#Forking-mainnet">Forking mainnet</a></li>
     <li><a href="#Note">Note</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -421,6 +422,15 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 
 - `borrowed balance (compound)`: Is 0
 - `liquidity`: The amount of token that we can borrow increased
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Liquidate
+
+- supply
+- borrow max
+- wait few blocks and let borrowed balance > supplied balance \* col factor
+- liquidate
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
