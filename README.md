@@ -271,11 +271,11 @@ Start by initializing 2 compound contracts: `comptroller` and `priceFeed`
 
 ## Collateral
 
-After you supply a token to compound, you are able to borrow a percentage of what you supply: collateral factor (for exemple 65%)
+After you supply a token to compound, you are able to borrow a percentage of what you supply: `collateral factor` (for exemple 70%)
 
 ### Function getCollateralFactor
 
-To get the collateral factor, we need to call `markets()` on the comptroller passing in the address of the cToken that we supply.
+To get the collateral factor using smart contracts, we need to call `markets()` on the `comptroller` passing in the address of the cToken that we supply.
 
 It will return 3 outputs: `isListed`, `colFactor` and `isComped`
 
@@ -289,17 +289,17 @@ How much can I borrow?
 
 ### Function getAccountLiquidity
 
-To get the account liquidity, we need to call `getAccountLiquidity()` on the comptroller passing in the address of this contract
+To get the current liquidity of an account, we need to call `getAccountLiquidity()` on the `comptroller` passing in the address of this contract
 
 It will return 3 outputs: `error`, `_liquidity` and `_shortfall`
 
-**Note that `_liquidity` is scaled up by 10\*\*18**
+**Note that `_liquidity`: USD amount that we can borrow up to, is scaled up by 10\*\*18**
 
 **If `_shortfall` > 0 => subject to liquidation**
 
 In Summary:
 
-- Normal circumstance - liquidity > 0 and shortfall == 0
+- normal circumstance - liquidity > 0 and shortfall == 0
 - liquidity > 0 means account can borrow up to `liquidity`
 - shortfall > 0 is subject to liquidation, you borrowed over the limit
 
@@ -307,7 +307,9 @@ In Summary:
 
 ## Open price feed
 
-Why might we need the price in terms of USD? => because liquidity is in terms of USD, by dividing it by the price of token that we want to borrow, we get the amount of tokens that we can borrow.
+Why might we need the price in terms of USD?
+
+Because liquidity is in terms of USD, by dividing it by the price of token that we want to borrow, we get the amount of tokens that we can borrow.
 
 ### Function getPriceFeed
 
@@ -328,7 +330,7 @@ What to do to borrow the token:
 
 1. Call `enterMarkets()` on `comptroller` passing in the tokens that we **_supply_**. One cToken here, so we initialize an array with 1 element.
 
-- Check on `error[0]`
+- Check `errors[0]`
 
 2. Call `getAccountLiquidity()` on `comptroller` passing in **_this address_**.
 
@@ -337,17 +339,17 @@ What to do to borrow the token:
 3. Get the price by calling `getUnderlyingPrice()` on `priceFeed` passing in the tokens that we **_borrow_**
 
 - Calculate `maxBorrow` by divinding the liquidity by the price. Scale up liquidity by `_decimals`
-- Check `maxBorrow` > 0
+- Check `maxBorrow`
 
 4. Define `amount` as 50% of `maxBorrow`
 
-=> Finally call `borrow()` on the `CErc20` for the `_cTokenBorrow`, and check while calling the function (0 <=> no error)
+5. Finally call `borrow()` on the `CErc20` for the `_cTokenBorrow`, and check while calling the function (0 <=> no error)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Borrowed balance (includes interest)
 
-Once we borrow we can get the balance of the borrowed token including the interest
+Once we borrow we can get the balance of the borrowed token **_including the interest_**
 
 ### Function getBorrowedBalance
 
@@ -380,10 +382,34 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 
 ## Test borrow/repay
 
+borrow (before)
+
+- `col factor`: The collateral factor is 70%
+- `supplied`: The amount of amount of WBTC that we supply according to compound is 0.99
+- `liquidity`: The amount of token that we can borrow in terms of USD is $0 => because we've not entered a market yet
+- `price`: price of token we're going to borrow => DAI
+- `max borrow`: amount of token of DAI that we can borrow is 0
+- `borrowed balance (compound)`: amount of DAI that we borrowed is 0
+
+borrow (after)
+
+- `borrowed balalance (erc20)`: after we borrow, the borrowed balance is 10608.03
+- `max borrow`: we can further borrow 10618 DAI
+- `liquidity`: a this moment the liquidity in terms of USD is 10626
+- ``
+
+after some blocks
+
+- `borrowed balance (compound)`: this shows us that the interest rate on borrow is accruing, it incresed
+
+repay
+
+- `borrowed balance (compound)`: is 0
+- `liquidity`: the amount of token that we can borrow increased
+
 <div>
 <img src="images/test2.png" alt="Test">
 </div>
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
