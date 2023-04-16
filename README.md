@@ -194,11 +194,11 @@ Set the contract interfaces
 When we call this function, it will lend our token to the compound protocol
 
 1. Transfer the token from the caller inside this contract
-2. Approve the cToken to spend the token we transfered before from msg.sender
-3. Call `mint()` on `cToken`contract to lend the token to compound
+2. Approve the `cToken` to spend the token we transfered before from `msg.sender`
+3. Call `mint()` on `cToken` contract to lend the token to compound
 4. When `mint()` is called, it returns a number (!0 = there is an error). Check that 0 is returned
 
-The question is: How much cToken do we have?
+The question is: How much `cToken` do we have?
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -250,6 +250,18 @@ To claim the token and the interest
 <div>
 <img src="images/test1.png" alt="Test">
 </div>
+
+### supply
+
+- `balance of underlying`: We supplied 1 WBTC and the balance is 0.99999 WBTC according to compound
+
+### after some blocks
+
+- `balance of underlying`: The balance icreased, we gain some interest for lending our WBTC
+
+### redeem
+
+- `token balance`: We claim the WBTC including the interest rate that we earned
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -391,24 +403,24 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 - `col factor`: The collateral factor is 70%
 - `supplied`: The amount of amount of WBTC that we supply according to compound is 0.99
 - `liquidity`: The amount of token that we can borrow in terms of USD is $0 => because we've not entered a market yet
-- `price`: price of token we're going to borrow => DAI
-- `max borrow`: amount of token of DAI that we can borrow is 0
-- `borrowed balance (compound)`: amount of DAI that we borrowed is 0
+- `price`: Price of token we're going to borrow => DAI
+- `max borrow`: Amount of token of DAI that we can borrow is 0
+- `borrowed balance (compound)`: Amount of DAI that we borrowed is 0
 
 ### borrow (after)
 
-- `borrowed balalance (erc20)`: after we borrow, the borrowed balance is 10608.03
-- `max borrow`: we can further borrow 10618 DAI
-- `liquidity`: a this moment the liquidity in terms of USD is 10626
+- `borrowed balalance (erc20)`: After we borrow, the borrowed balance is 10608.03
+- `max borrow`: We can further borrow 10618 DAI
+- `liquidity`: The liquidity in terms of USD is 10626 at this moment
 
 ### after some blocks
 
-- `borrowed balance (compound)`: this shows us that the interest rate on borrow is accruing, it incresed
+- `borrowed balance (compound)`: This shows us that the interest rate on borrow is accruing, it incresed
 
 ### repay
 
-- `borrowed balance (compound)`: is 0
-- `liquidity`: the amount of token that we can borrow increased
+- `borrowed balance (compound)`: Is 0
+- `liquidity`: The amount of token that we can borrow increased
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
