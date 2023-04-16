@@ -395,7 +395,7 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 - `max borrow`: amount of token of DAI that we can borrow is 0
 - `borrowed balance (compound)`: amount of DAI that we borrowed is 0
 
-### borrow (after)
+### borrow (after)
 
 - `borrowed balalance (erc20)`: after we borrow, the borrowed balance is 10608.03
 - `max borrow`: we can further borrow 10618 DAI
