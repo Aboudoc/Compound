@@ -382,7 +382,11 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 
 ## Test borrow/repay
 
-borrow (before)
+<div>
+<img src="images/test2.png" alt="Test">
+</div>
+
+### borrow (before)
 
 - `col factor`: The collateral factor is 70%
 - `supplied`: The amount of amount of WBTC that we supply according to compound is 0.99
@@ -391,25 +395,21 @@ borrow (before)
 - `max borrow`: amount of token of DAI that we can borrow is 0
 - `borrowed balance (compound)`: amount of DAI that we borrowed is 0
 
-borrow (after)
+### borrow (after)
 
 - `borrowed balalance (erc20)`: after we borrow, the borrowed balance is 10608.03
 - `max borrow`: we can further borrow 10618 DAI
 - `liquidity`: a this moment the liquidity in terms of USD is 10626
 - ``
 
-after some blocks
+### after some blocks
 
 - `borrowed balance (compound)`: this shows us that the interest rate on borrow is accruing, it incresed
 
-repay
+### repay
 
 - `borrowed balance (compound)`: is 0
 - `liquidity`: the amount of token that we can borrow increased
-
-<div>
-<img src="images/test2.png" alt="Test">
-</div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
