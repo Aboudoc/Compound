@@ -94,4 +94,8 @@ contract CompoundLiquidator {
     function getCloseFactor() external view returns (uint) {
         return comptroller.closeFactorMantissa();
     }
+
+    function getLiquidationIncentive() external view returns (uint) {
+        return comptroller.liquidationIncentiveMantissa();
+    }
 }

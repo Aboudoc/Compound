@@ -48,7 +48,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#Supply-and-Redeem">Supply and Redeem</a></li>
+    <li><a href="#Supply-and-Redeem-Contract">Supply and Redeem Contract</a></li>
     <li><a href="#State-Variables">State Variables</a></li>
     <li><a href="#Constructor">Constructor</a></li>
     <li><a href="#Function-supply">Function supply</a></li>
@@ -58,7 +58,7 @@
     <li><a href="#Function-balanceOfUnderlying">Function balanceOfUnderlying</a></li>
     <li><a href="#Function-redeem">Function redeem</a></li>
     <li><a href="#Test-supply/redeem">Test supply/redeem</a></li>
-    <li><a href="#Borrow-and-Repay">Borrow and Repay</a></li>
+    <li><a href="#Borrow-and-Repay-Contract">Borrow and Repay Contract</a></li>
     <li><a href="#Collateral">Collateral</a></li>
     <li><a href="#Account-liquidity">Account liquidity</a></li>
     <li><a href="#Open-price-feed">Open price feed</a></li>
@@ -67,6 +67,9 @@
     <li><a href="#Borrow-rate">Borrow rate</a></li>
     <li><a href="#Repay-borrow">Repay borrow</a></li>
     <li><a href="#Test-borrow/repay">Test borrow/repay</a></li>
+    <li><a href="#Liquidate-Contract">Liquidate Contract</a></li>
+    <li><a href="#Close-factor">Close factor</a></li>
+    <li><a href="#Liquidation-incentive">Liquidation incentive</a></li>
     <li><a href="#Liquidate">Liquidate</a></li>
     <li><a href="#Forking-mainnet">Forking mainnet</a></li>
     <li><a href="#Note">Note</a></li>
@@ -161,7 +164,7 @@ You can learn more about `CPAMM` in [this repo](https://github.com/Aboudoc/Const
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Supply and Redeem
+## Supply and Redeem Contract
 
 There are `4 operations` related to lending and borrowing on Compound:
 
@@ -266,7 +269,7 @@ To claim the token and the interest
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Borrow and Repay
+## Borrow and Repay Contract
 
 Topics related to this part of the contract:
 
@@ -425,7 +428,7 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Liquidate
+## Liquidate Contract
 
 Liquidate contract
 
@@ -486,7 +489,7 @@ Multiply `cTokenCollateralAmount` by the exchange rate of the collateral cToken,
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Function getCloseFactor
+### Function liquidate
 
 - Transfer the `tokenBorrow` from `msg.sender` to this contract for `_repayAmount`
 - Approve the `cTokenBorrow` to be able to spend `_repayAmount` from this contract
