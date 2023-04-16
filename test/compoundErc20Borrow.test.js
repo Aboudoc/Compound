@@ -15,8 +15,9 @@ describe("Compound finance", function () {
     const C_TOKEN = CWBTC;
     const TOKEN_TO_BORROW = DAI;
     const C_TOKEN_TO_BORROW = CDAI;
-    const SUPPLY_AMOUNT = 2n * 10n ** 8n;
+    const SUPPLY_AMOUNT = 1n * 10n ** 8n;
     const FUND_AMOUNT = 2n * 10n ** 8n;
+    const BORROW_INTEREST = 1000n * 10n ** 18n;
 
     let accounts,
       token,
@@ -25,6 +26,7 @@ describe("Compound finance", function () {
       cTokenToBorrow,
       testCompound,
       wbtcWhale,
+      repayWhale,
       snapshot;
 
     beforeEach(async function () {
@@ -45,7 +47,13 @@ describe("Compound finance", function () {
         params: [process.env.WBTC_WHALE0],
       });
 
+      await network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: [process.env.DAI_WHALE],
+      });
+
       wbtcWhale = await ethers.getSigner(process.env.WBTC_WHALE0);
+      repayWhale = await ethers.getSigner(process.env.DAI_WHALE);
 
       await token.connect(wbtcWhale).transfer(accounts[1].address, FUND_AMOUNT);
       await token
@@ -138,6 +146,22 @@ describe("Compound finance", function () {
       console.log(`borrowed balance (erc20): ${after.tokenToBorrowBal}`);
 
       // repay
+      await tokenToBorrow
+        .connect(repayWhale)
+        .transfer(testCompound.address, BORROW_INTEREST);
+
+      const MAX_UINT = 2n ** 256n - 1n;
+
+      await testCompound
+        .connect(repayWhale)
+        .repay(TOKEN_TO_BORROW, C_TOKEN_TO_BORROW, MAX_UINT);
+
+      after = await snapshot(testCompound, tokenToBorrow);
+      console.log(`--- repay ---`);
+      console.log(`liquidity: $ ${after.liquidity}`);
+      console.log(`max borrow: ${after.maxBorrow}`);
+      console.log(`borrowed balance (compound): ${after.borrowedBalance}`);
+      console.log(`borrowed balance (erc20): ${after.tokenToBorrowBal}`);
     });
   });
 });
