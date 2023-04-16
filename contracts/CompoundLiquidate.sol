@@ -90,4 +90,8 @@ contract CompoundLiquidator {
         tokenBorrow = IERC20(_tokenBorrow);
         cTokenBorrow = CErc20(_cTokenBorrow);
     }
+
+    function getCloseFactor() external view returns (uint) {
+        return comptroller.closeFactorMantissa();
+    }
 }

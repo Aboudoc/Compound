@@ -427,10 +427,70 @@ Once we are ready to repay what we've borrowed, we will call the function `repay
 
 ## Liquidate
 
+Liquidate contract
+
 - supply
 - borrow max
 - wait few blocks and let borrowed balance > supplied balance \* col factor
 - liquidate
+
+Liquidator contract
+
+- close factor
+- liqidation incentive
+- liquidate
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Close factor
+
+the maximum pourcentage of the borrow token that can be repaid
+
+For example an account has borrowed 100 DAI and is subject to liquidation
+
+A close factor of 50% means that we can repay up to 50% of the 100 DAI that was borrowed
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Function getCloseFactor
+
+Call `closeFactorMantissa()` on the `comptroller`. Divide it buy 10\*\*18 to get it in percentage
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Liquidation incentive
+
+When we call liquidate, we pay a portion of the token that was borrowed by another account
+
+In return we are rewarded for portion of the token that was supplied as collateral, and we will receive the collateral at a discount
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Function getLiquidationIncentive
+
+Call `liquidationIncentiveMantissa()` on the `comptroller`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Function getAmountToBeLiquidated
+
+Call `liquidationCalculateSeizeTokens()` on the `comptroller`
+
+This will return `error` and `cTokenCollateralAmount` that will be liquidated
+
+Multiply `cTokenCollateralAmount` by the exchange rate of the collateral cToken, and you will be able to get the amount of collateral that will be liquidated
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Liquidate
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Function getCloseFactor
+
+- Transfer the `tokenBorrow` from `msg.sender` to this contract for `_repayAmount`
+- Approve the `cTokenBorrow` to be able to spend `_repayAmount` from this contract
+- Finally we cal `liquidateBorrow` on `cTokenBorrow` contract passing in the address of the `_borrower` (undercollaterize), `_cTokeenCollateral` and the `repayAmount`. Check that the call is successful (returns 0)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
