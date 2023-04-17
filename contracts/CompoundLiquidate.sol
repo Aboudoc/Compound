@@ -98,4 +98,39 @@ contract CompoundLiquidator {
     function getLiquidationIncentive() external view returns (uint) {
         return comptroller.liquidationIncentiveMantissa();
     }
+
+    function getAmountToBeLiquidated(
+        address _cTokenBorrowed,
+        address _cTokenCollateral,
+        uint _actualRepayAmount
+    ) external view returns (uint) {
+        (uint error, uint cTokenCollateralAmount) = comptroller
+            .liquidateCalculateSeizeTokens(
+                _cTokenBorrowed,
+                _cTokenCollateral,
+                _actualRepayAmount
+            );
+
+        require(error == 0, "error");
+
+        return cTokenCollateralAmount;
+    }
+
+    function liquidate(
+        address _borrower,
+        uint _repayAmount,
+        address _cTokenCollateral
+    ) external {
+        tokenBorrow.transferFrom(msg.sender, address(this), _repayAmount);
+        tokenBorrow.approve(address(cTokenBorrow), _repayAmount);
+
+        require(
+            cTokenBorrow.liquidateBorrow(
+                _borrower,
+                _repayAmount,
+                _cTokenCollateral
+            ) == 0,
+            "liquidation failed"
+        );
+    }
 }
