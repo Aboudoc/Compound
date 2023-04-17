@@ -483,6 +483,11 @@ This will return `error` and `cTokenCollateralAmount` that will be liquidated
 
 Multiply `cTokenCollateralAmount` by the exchange rate of the collateral cToken, and you will be able to get the amount of collateral that will be liquidated
 
+`seizeAmount` = actualRepayAmount _ liquidationIncentive _ priceBorrowed / priceCollateral
+
+`seizeTokens` = seizeAmount / exchangeRate
+= actualRepayAmount \* (liquidationIncentive \* priceBorrowed) / (priceCollateral \* exchangeRate)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Liquidate
@@ -535,9 +540,15 @@ You can find official Compound documentation below:
 
 [Exchange Rate](https://docs.compound.finance/v2/ctokens/#exchange-rate)
 
+[Compound Supply examples](https://github.com/compound-developers/compound-supply-examples)
+
+[Compound Borrow examples](https://github.com/compound-developers/compound-borrow-examples)
+
 ### Sources
 
 [Smart Contract Engineer](https://www.smartcontract.engineer/)
+
+[Compound Developers](https://github.com/compound-developers)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
