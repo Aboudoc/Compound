@@ -487,7 +487,7 @@ Multiply `cTokenCollateralAmount` by the exchange rate of the collateral cToken,
 
 `seizeTokens` = seizeAmount / exchangeRate
 
-              = actualRepayAmount \* (liquidationIncentive \* priceBorrowed) / (priceCollateral \* exchangeRate)
+= actualRepayAmount \* (liquidationIncentive \* priceBorrowed) / (priceCollateral \* exchangeRate)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
