@@ -447,11 +447,11 @@ Liquidator contract
 
 ## Close factor
 
-the maximum pourcentage of the borrow token that can be repaid
+The maximum pourcentage of the borrow token that can be repaid
 
 For example an account has borrowed 100 DAI and is subject to liquidation
 
-A close factor of 50% means that we can repay up to 50% of the 100 DAI that was borrowed
+**_A close factor of 50% means that we can repay up to 50% of the 100 DAI that was borrowed_**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -465,7 +465,7 @@ Call `closeFactorMantissa()` on the `comptroller`. Divide it buy 10\*\*18 to get
 
 When we call liquidate, we pay a portion of the token that was borrowed by another account
 
-In return we are rewarded for portion of the token that was supplied as collateral, and we will receive the collateral at a discount
+In return **_we are rewarded for portion of the token that was supplied as collateral, and we will receive the collateral at a discount_**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
