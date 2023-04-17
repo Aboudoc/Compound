@@ -483,10 +483,11 @@ This will return `error` and `cTokenCollateralAmount` that will be liquidated
 
 Multiply `cTokenCollateralAmount` by the exchange rate of the collateral cToken, and you will be able to get the amount of collateral that will be liquidated
 
-`seizeAmount` = actualRepayAmount _ liquidationIncentive _ priceBorrowed / priceCollateral
+`seizeAmount` = actualRepayAmount \* liquidationIncentive \* priceBorrowed / priceCollateral
 
 `seizeTokens` = seizeAmount / exchangeRate
-= actualRepayAmount \* (liquidationIncentive \* priceBorrowed) / (priceCollateral \* exchangeRate)
+
+              = actualRepayAmount \* (liquidationIncentive \* priceBorrowed) / (priceCollateral \* exchangeRate)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
