@@ -73,6 +73,8 @@
     <li><a href="#Liquidate">Liquidate</a></li>
     <li><a href="#Test-liquidate">Test liquidate</a></li>
     <li><a href="#Long-and-Short">Long and Short</a></li>
+    <li><a href="#Long-ETH">Long ETH</a></li>
+    <li><a href="#Short-ETH">Long ETH</a></li>
     <li><a href="#Forking-mainnet">Forking mainnet</a></li>
     <li><a href="#Note">Note</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -518,6 +520,41 @@ To fix:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Long and Short
+
+### Long ETH
+
+We will supply `10 ETH` and borrow `600 DAI` on `Compound` (30% of $2000 after shapella, less than the collateral ratio of 70%)
+
+We will sell immediatly our `DAI` to `ETH` on `Uniswap`
+
+After ETH price increases, we will sell on Uniswap `ETH` to buy back the `DAI` borrowed on Compound
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Short ETH
+
+Supply `10000 DAI`to Compound and use it as collateral to borrow`1.5 ETH`
+
+We will immediately sell this `ETH` for `DAI` on `Uniswap` (sell 1.5 ETH => 3000DAI)
+
+After ETH price decreases, we will buy back 1.5 ETH that we borrowed
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+Here is what we will do:
+
+1. supply ETH
+2. borrow stable coin (DAI, USDC)
+3. buy ETH on Uniswap
+
+   when the price of ETH goes up...
+
+4. sell ETH on Uniswap
+5. repay borrowed stable coin
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Test long
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
