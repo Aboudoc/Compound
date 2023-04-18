@@ -5,7 +5,7 @@ import "./interfaces/Compound.sol";
 import "./interfaces/Uniswap.sol";
 import "./interfaces/IERC20.sol";
 
-contract TestCompoundLong {
+contract CompoundLong {
     CEth public cEth;
     CErc20 public cTokenBorrow;
     IERC20 public tokenBorrow;
