@@ -71,6 +71,8 @@
     <li><a href="#Close-factor">Close factor</a></li>
     <li><a href="#Liquidation-incentive">Liquidation incentive</a></li>
     <li><a href="#Liquidate">Liquidate</a></li>
+    <li><a href="#Test-liquidate">Test liquidate</a></li>
+    <li><a href="#Long-and-Short">Long and Short</a></li>
     <li><a href="#Forking-mainnet">Forking mainnet</a></li>
     <li><a href="#Note">Note</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -503,6 +505,22 @@ Multiply `cTokenCollateralAmount` by the exchange rate of the collateral cToken,
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Test liquidate
+
+We are going to supply 1 `WBTC` then borrow max amount of `DAI`
+
+To fix:
+
+- A loop is used to increase time using `evm_increaseTime`. Find a better way to increase time
+- Issue using big numbers. Find how to convert/trunc `borrowAmount` computed
+- Why shortfal = 0 after whereas liquidity close to 0?
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Long and Short
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Forking mainnet
 
 `hardhat.config.js`
@@ -557,8 +575,11 @@ You can find official Compound documentation below:
 
 ## Roadmap
 
-- [ ] Main functionalities of the protocol
-- [ ] Test on mainnet fork
+- [-] Main functionalities of the protocol
+- [-] Test on mainnet fork
+- [-] Liquidate
+- [ ] Fix test on liquidate
+- [ ] Long & Short
 - [ ] Deploy on mainnet?
 - [ ] Further reading
 

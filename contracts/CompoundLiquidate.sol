@@ -133,4 +133,11 @@ contract CompoundLiquidator {
             "liquidation failed"
         );
     }
+
+    function getSupplyBalance(address _cTokenCollateral)
+        external
+        returns (uint)
+    {
+        return CErc20(_cTokenCollateral).balanceOfUnderlying(address(this));
+    }
 }

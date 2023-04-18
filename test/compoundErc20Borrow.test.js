@@ -86,7 +86,7 @@ describe("Compound finance", function () {
         );
 
         return {
-          colFactor: colFactor / 10 ** 18,
+          colFactor: colFactor / 10 ** (18 - 2),
           supplied: supplied / 10 ** (SUPPLY_DECIMALS - 2) / 100,
           price: price / 10 ** (18 - 2) / 100,
           liquidity: liquidity / 10 ** 18,
