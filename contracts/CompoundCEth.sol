@@ -29,7 +29,6 @@ contract TestCompoundEth {
         supplyRate = cToken.supplyRatePerBlock();
     }
 
-    // not view function
     function estimateBalanceOfUnderlying() external returns (uint) {
         uint cTokenBal = cToken.balanceOf(address(this));
         uint exchangeRate = cToken.exchangeRateCurrent();
@@ -40,7 +39,6 @@ contract TestCompoundEth {
             (cTokenBal * exchangeRate) / 10**(18 + decimals - cTokenDecimals);
     }
 
-    // not view function
     function balanceOfUnderlying() external returns (uint) {
         return cToken.balanceOfUnderlying(address(this));
     }
