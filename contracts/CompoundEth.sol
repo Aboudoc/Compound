@@ -21,7 +21,6 @@ contract CompoundEth {
         return cToken.balanceOf(address(this));
     }
 
-    // not view function
     function getInfo() external returns (uint exchangeRate, uint supplyRate) {
         // Amount of current exchange rate from cToken to underlying
         exchangeRate = cToken.exchangeRateCurrent();
