@@ -4,7 +4,7 @@ pragma solidity ^0.8;
 import "./interfaces/IERC20.sol";
 import "./interfaces/Compound.sol";
 
-contract TestCompoundEth {
+contract CompoundEth {
     CEth public cToken;
 
     constructor(address _cToken) {
