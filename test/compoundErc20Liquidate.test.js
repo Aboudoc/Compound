@@ -85,8 +85,6 @@ describe("Compound finance", function () {
         const supplied = await testCompound.callStatic.getSupplyBalance();
         const borrowed = await testCompound.callStatic.getBorrowBalance();
         const colFactor = await testCompound.getCollateralFactor();
-        // const { liquidity, shortfall } =
-        //   await testCompound.getAccountLiquidity();
         const liquidity = await testCompound.getAccountLiquidity();
         const price = await testCompound.getPriceFeed(C_TOKEN_TO_BORROW);
         const closeFactor = await liquidator.getCloseFactor();
@@ -160,21 +158,19 @@ describe("Compound finance", function () {
       // send any tx to Compound to update liquidity and shortfall
       await testCompound.getBorrowBalance();
 
-      // RESTART FROM HERE
       after = await snapshot(testCompound, liquidator);
       console.log(`--- after some blocks... ---`);
       console.log(`liquidity: $ ${after.liquidity / 1e18}`);
 
-      //TO FIX : shortfall: $ 0
       console.log(`shortfall: $ ${after.shortfall / 1e18}`);
       console.log(`borrowed: ${after.borrowed}`);
 
       // liquidate
       const closeFactor = await liquidator.getCloseFactor();
-      const repayAmount =
-        ((await testCompound.callStatic.getBorrowBalance()) * closeFactor) /
-        10 ** 18 /
-        10 ** 18;
+      const borrowBalance = await testCompound.callStatic.getBorrowBalance();
+
+      const amt = BigNumber.from(borrowBalance).mul(closeFactor);
+      const repayAmount = BigNumber.from(amt).div(1000000000000000000n);
 
       const liqBal =
         (await tokenToBorrow.balanceOf(repayWhale.address)) /
@@ -182,19 +178,40 @@ describe("Compound finance", function () {
 
       console.log(`close factor: ${closeFactor / 10 ** (18 - 2)}%`);
 
-      console.log(`repay amount: ${repayAmount}`);
+      console.log(`repay amount: ${repayAmount / 1e18}`);
 
-      console.log(`liquidator balance: ${liqBal}`);
+      console.log(`liquidator balance: $ ${liqBal}`);
 
       // TO FIX : Error: underflow
-      // const amountToBeLiquidated = await liquidator.getAmountToBeLiquidated(
-      //   C_TOKEN_TO_BORROW,
-      //   C_TOKEN,
-      //   repayAmount
-      // );
-      // console.log(
-      //   `amount to be liquidated (cToken collateral):  ${amountToBeLiquidated}`
-      // );
+      const amountToBeLiquidated = await liquidator.getAmountToBeLiquidated(
+        C_TOKEN_TO_BORROW,
+        C_TOKEN,
+        repayAmount
+      );
+      console.log(
+        `amount to be liquidated (cToken collateral):  ${
+          amountToBeLiquidated.div(10 ** SUPPLY_DECIMALS - 2) / 100
+        }`
+      );
+
+      await tokenToBorrow
+        .connect(repayWhale)
+        .approve(liquidator.address, repayAmount);
+
+      await liquidator
+        .connect(repayWhale)
+        .liquidate(testCompound.address, repayAmount, C_TOKEN);
+
+      after = await snapshot(testCompound, liquidator);
+
+      console.log(`--- liquidated ---`);
+      console.log(`close factor: ${after.closeFactor} %`);
+      console.log(`liquidation incentive: ${after.incentive / 1e18}`);
+      console.log(`supplied: ${after.supplied}`);
+      console.log(`liquidity: $ ${after.liquidity / 1e18}`);
+      console.log(`shortfall: $ ${after.shortfall}`);
+      console.log(`borrowed: ${after.borrowed}`);
+      console.log(`liquidated: ${after.liquidated / 10 ** SUPPLY_DECIMALS}`);
     });
   });
 });

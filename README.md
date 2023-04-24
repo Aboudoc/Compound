@@ -615,8 +615,8 @@ You can find official Compound documentation below:
 - [-] Main functionalities of the protocol
 - [-] Test on mainnet fork
 - [-] Liquidate
-- [ ] Fix test on liquidate
-- [ ] Long & Short
+- [-] Fix test on liquidate
+- [ ] Long & Short test
 - [ ] Deploy on mainnet?
 - [ ] Further reading
 
