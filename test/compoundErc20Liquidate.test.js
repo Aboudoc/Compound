@@ -2,11 +2,8 @@ const { ethers, network } = require("hardhat");
 const { expect } = require("chai");
 require("dotenv").config();
 const { BigNumber } = require("ethers");
+const { WBTC, CWBTC, DAI, CDAI } = require("./config.js");
 
-const WBTC = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599";
-const CWBTC = "0xccF4429DB6322D5C611ee964527D42E5d685DD6a";
-const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
-const CDAI = "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643";
 const BORROW_DECIMALS = 18;
 const SUPPLY_DECIMALS = 8;
 
