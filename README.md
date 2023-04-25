@@ -616,7 +616,9 @@ You can find official Compound documentation below:
 - [-] Test on mainnet fork
 - [-] Liquidate
 - [-] Fix test on liquidate
-- [ ] Long & Short test
+- [-] Long test
+- [ ] Short test
+- [ ] README long short test
 - [ ] Deploy on mainnet?
 - [ ] Further reading
 
