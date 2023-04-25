@@ -511,12 +511,6 @@ Multiply `cTokenCollateralAmount` by the exchange rate of the collateral cToken,
 
 We are going to supply 1 `WBTC` then borrow max amount of `DAI`
 
-To fix:
-
-- A loop is used to increase time using `evm_increaseTime`. Find a better way to increase time
-- Issue using big numbers. Find how to convert/trunc `borrowAmount` computed
-- Why shortfal = 0 after whereas liquidity close to 0?
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Long and Short
@@ -555,6 +549,8 @@ Here is what we will do:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Test long
+
+## Test short
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
